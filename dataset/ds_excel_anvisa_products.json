@@ -1,0 +1,183 @@
+{
+	"name": "ds_excel_anvisa_products",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_datalake",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "TOTAL ANVISA",
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "ANVISA_Layout-GuiaJan22_.xlsx",
+				"fileSystem": "excelfiles"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "SUBSTÂNCIA",
+				"type": "String"
+			},
+			{
+				"name": "CNPJ",
+				"type": "String"
+			},
+			{
+				"name": "LABORATÓRIO",
+				"type": "String"
+			},
+			{
+				"name": "CÓDIGO GGREM",
+				"type": "String"
+			},
+			{
+				"name": "REGISTRO",
+				"type": "String"
+			},
+			{
+				"name": "EAN 1",
+				"type": "String"
+			},
+			{
+				"name": "EAN 2",
+				"type": "String"
+			},
+			{
+				"name": "EAN 3",
+				"type": "String"
+			},
+			{
+				"name": "PRODUTO",
+				"type": "String"
+			},
+			{
+				"name": "APRESENTAÇÃO",
+				"type": "String"
+			},
+			{
+				"name": "CLASSE TERAPÊUTICA",
+				"type": "String"
+			},
+			{
+				"name": "TIPO DE PRODUTO (STATUS DO PRODUTO)",
+				"type": "String"
+			},
+			{
+				"name": "REGIME DE PREÇO",
+				"type": "String"
+			},
+			{
+				"name": "PF Sem Impostos",
+				"type": "String"
+			},
+			{
+				"name": "PF 0%",
+				"type": "String"
+			},
+			{
+				"name": "PF 12%",
+				"type": "String"
+			},
+			{
+				"name": "PF 17%",
+				"type": "String"
+			},
+			{
+				"name": "PF 17% ALC",
+				"type": "String"
+			},
+			{
+				"name": "PF 17,5%",
+				"type": "String"
+			},
+			{
+				"name": "PF 17,5% ALC",
+				"type": "String"
+			},
+			{
+				"name": "PF 18%",
+				"type": "String"
+			},
+			{
+				"name": "PF 18% ALC",
+				"type": "String"
+			},
+			{
+				"name": "PF 20%",
+				"type": "String"
+			},
+			{
+				"name": "PMC 0%",
+				"type": "String"
+			},
+			{
+				"name": "PMC 12%",
+				"type": "String"
+			},
+			{
+				"name": "PMC 17%",
+				"type": "String"
+			},
+			{
+				"name": "PMC 17% ALC",
+				"type": "String"
+			},
+			{
+				"name": "PMC 17,5%",
+				"type": "String"
+			},
+			{
+				"name": "PMC 17,5% ALC",
+				"type": "String"
+			},
+			{
+				"name": "PMC 18%",
+				"type": "String"
+			},
+			{
+				"name": "PMC 18% ALC",
+				"type": "String"
+			},
+			{
+				"name": "PMC 20%",
+				"type": "String"
+			},
+			{
+				"name": "RESTRIÇÃO HOSPITALAR",
+				"type": "String"
+			},
+			{
+				"name": "CAP",
+				"type": "String"
+			},
+			{
+				"name": "CONFAZ 87",
+				"type": "String"
+			},
+			{
+				"name": "ICMS 0%",
+				"type": "String"
+			},
+			{
+				"name": "ANÁLISE RECURSAL CMED / PREÇO AJUSTADO POR DECISÃO JUDICIAL",
+				"type": "String"
+			},
+			{
+				"name": "LISTA DE CONCESSÃO DE CRÉDITO TRIBUTÁRIO (PIS/COFINS)",
+				"type": "String"
+			},
+			{
+				"name": "COMERCIALIZAÇÃO 2019",
+				"type": "String"
+			},
+			{
+				"name": "TARJA",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
