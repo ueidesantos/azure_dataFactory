@@ -1,0 +1,35 @@
+{
+	"name": "ds_excel_lobby_eans",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_datalake",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Sheet1",
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "LobbyFileAnvisa.xlsx",
+				"fileSystem": "excelfiles"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "EAN 1",
+				"type": "String"
+			},
+			{
+				"name": "EAN 2",
+				"type": "String"
+			},
+			{
+				"name": "EAN 3",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
