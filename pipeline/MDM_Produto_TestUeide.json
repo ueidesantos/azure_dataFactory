@@ -41,31 +41,6 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$['pagina']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['total_paginas']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['total_itens']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['total_data']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data_atualizacao']"
-								}
-							},
-							{
-								"source": {
 									"path": "$['data'][0]['ID_PRODUTO']"
 								}
 							},
