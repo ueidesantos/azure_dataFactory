@@ -20,7 +20,10 @@
 						"httpRequestTimeout": "00:01:40",
 						"requestInterval": "00.00:00:00.010",
 						"requestMethod": "POST",
-						"requestBody": "",
+						"requestBody": "cnpj_sh=05347060000603&\ncnpj_cpf=05347060000603&\nemail=juliana.garcia@interplayers.com.br&\nsenha=228081",
+						"additionalHeaders": {
+							"content-type": "x-www-form-urlencoded"
+						},
 						"paginationRules": {
 							"supportRFC5988": "true"
 						}
