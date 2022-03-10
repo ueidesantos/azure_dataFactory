@@ -19,16 +19,26 @@
 						"type": "RestSource",
 						"additionalColumns": [
 							{
-								"value": "$$COLUMN:"
+								"name": "cnpj_cpf",
+								"value": "05347060000603"
+							},
+							{
+								"name": "email",
+								"value": "juliana.garcia@interplayers.com.br"
+							},
+							{
+								"name": "senha",
+								"value": "228081"
+							},
+							{
+								"name": "cnpj_sh",
+								"value": "05347060000603"
 							}
 						],
 						"httpRequestTimeout": "00:01:40",
 						"requestInterval": "00.00:00:00.010",
 						"requestMethod": "POST",
 						"requestBody": "",
-						"additionalHeaders": {
-							"": ""
-						},
 						"paginationRules": {
 							"supportRFC5988": "true"
 						}
