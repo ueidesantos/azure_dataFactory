@@ -1,0 +1,130 @@
+{
+	"name": "MDMDEV_Produto",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "MDM_PBMGuia",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Id",
+				"type": "uniqueidentifier"
+			},
+			{
+				"name": "Substance",
+				"type": "varchar"
+			},
+			{
+				"name": "FiscalNumber",
+				"type": "varchar"
+			},
+			{
+				"name": "Laboratory",
+				"type": "varchar"
+			},
+			{
+				"name": "GGREMCode",
+				"type": "varchar"
+			},
+			{
+				"name": "Registry",
+				"type": "varchar"
+			},
+			{
+				"name": "Ean1",
+				"type": "varchar"
+			},
+			{
+				"name": "Ean2",
+				"type": "varchar"
+			},
+			{
+				"name": "Ean3",
+				"type": "varchar"
+			},
+			{
+				"name": "ProductName",
+				"type": "varchar"
+			},
+			{
+				"name": "Presentation",
+				"type": "varchar"
+			},
+			{
+				"name": "ProductUseValidityId",
+				"type": "uniqueidentifier"
+			},
+			{
+				"name": "TherapeuticClassId",
+				"type": "uniqueidentifier"
+			},
+			{
+				"name": "ProductTypeId",
+				"type": "uniqueidentifier"
+			},
+			{
+				"name": "ProductSubTypeId",
+				"type": "uniqueidentifier"
+			},
+			{
+				"name": "PriceRegime",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "HospitalRestriction",
+				"type": "bit"
+			},
+			{
+				"name": "Cap",
+				"type": "bit"
+			},
+			{
+				"name": "Confaz",
+				"type": "bit"
+			},
+			{
+				"name": "Icms0",
+				"type": "bit"
+			},
+			{
+				"name": "AppealAnalysis",
+				"type": "varchar"
+			},
+			{
+				"name": "TributaryCreditConcession",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Commercialization",
+				"type": "bit"
+			},
+			{
+				"name": "Targe",
+				"type": "varchar"
+			},
+			{
+				"name": "UseType",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Modified",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "Deleted",
+				"type": "bit"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Product"
+		}
+	}
+}
