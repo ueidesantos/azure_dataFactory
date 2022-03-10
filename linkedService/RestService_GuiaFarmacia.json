@@ -1,6 +1,20 @@
 {
 	"name": "RestService_GuiaFarmacia",
 	"properties": {
+		"parameters": {
+			"cnpj_cpf": {
+				"type": "string",
+				"defaultValue": "05347060000603"
+			},
+			"email": {
+				"type": "string",
+				"defaultValue": "juliana.garcia@interplayers.com.br"
+			},
+			"senha": {
+				"type": "string",
+				"defaultValue": "228081"
+			}
+		},
 		"annotations": [],
 		"type": "RestService",
 		"typeProperties": {
