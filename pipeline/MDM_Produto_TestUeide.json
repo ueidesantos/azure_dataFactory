@@ -20,7 +20,7 @@
 						"httpRequestTimeout": "00:01:40",
 						"requestInterval": "00.00:00:00.010",
 						"requestMethod": "POST",
-						"requestBody": "content-type",
+						"requestBody": "",
 						"paginationRules": {
 							"supportRFC5988": "true"
 						}

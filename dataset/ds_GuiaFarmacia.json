@@ -3,7 +3,12 @@
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "RestService_GuiaFarmacia",
-			"type": "LinkedServiceReference"
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"cnpj_cpf": "05347060000603",
+				"email": "juliana.garcia@interplayers.com.br",
+				"senha": "228081"
+			}
 		},
 		"annotations": [],
 		"type": "RestResource",
