@@ -29,6 +29,14 @@
 							{
 								"name": "senha",
 								"value": "228081"
+							},
+							{
+								"name": "cnpj_sh",
+								"value": "05347060000603"
+							},
+							{
+								"name": "pagina",
+								"value": "$$COLUMN:1"
 							}
 						],
 						"httpRequestTimeout": "00:01:40",
