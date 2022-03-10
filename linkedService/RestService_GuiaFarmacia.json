@@ -2,6 +2,24 @@
 	"name": "RestService_GuiaFarmacia",
 	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
+		"parameters": {
+			"cnpj_sh": {
+				"type": "string",
+				"defaultValue": "05347060000603"
+			},
+			"cnpj_cpf": {
+				"type": "string",
+				"defaultValue": "05347060000603"
+			},
+			"senha": {
+				"type": "string",
+				"defaultValue": "228081"
+			},
+			"email": {
+				"type": "string",
+				"defaultValue": "juliana.garcia@interplayers.com.br"
+			}
+		},
 		"annotations": [],
 		"type": "RestService",
 		"typeProperties": {
