@@ -22,7 +22,7 @@
 		"annotations": [],
 		"type": "RestService",
 		"typeProperties": {
-			"url": "https://webservice.guiadafarmaciadigital.com.br/webservice/",
+			"url": "https://webservice.guiadafarmaciadigital.com.br/webservice/?",
 			"enableServerCertificateValidation": true,
 			"authenticationType": "Anonymous"
 		}
