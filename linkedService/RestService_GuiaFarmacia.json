@@ -1,5 +1,6 @@
 {
 	"name": "RestService_GuiaFarmacia",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
 		"parameters": {
 			"cnpj_cpf": {
@@ -20,7 +21,13 @@
 		"typeProperties": {
 			"url": "https://webservice.guiadafarmaciadigital.com.br/webservice/",
 			"enableServerCertificateValidation": true,
-			"authenticationType": "Anonymous"
+			"authenticationType": "Anonymous",
+			"authHeaders": {
+				"content-type": {
+					"type": "SecureString",
+					"value": "**********"
+				}
+			}
 		}
 	}
 }
