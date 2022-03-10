@@ -36,7 +36,7 @@
 							},
 							{
 								"name": "pagina",
-								"value": "$$COLUMN:1"
+								"value": "1"
 							}
 						],
 						"httpRequestTimeout": "00:01:40",
