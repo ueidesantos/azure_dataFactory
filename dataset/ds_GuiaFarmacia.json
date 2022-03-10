@@ -8,11 +8,14 @@
 				"cnpj_cpf": "05347060000603",
 				"email": "juliana.garcia@interplayers.com.br",
 				"senha": "228081",
-				"cnpj_sh": " "
+				"cnpj_sh": " 05347060000603"
 			}
 		},
 		"annotations": [],
 		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": "?cnpj_sh=05347060000603&cnpj_cpf=05347060000603&email=juliana.garcia@interplayers.com.br"
+		},
 		"schema": []
 	}
 }
