@@ -44,7 +44,8 @@
 									"path": "$['data'][0]['ID_PRODUTO']"
 								},
 								"sink": {
-									"type": "String"
+									"name": "product_id",
+									"type": "Guid"
 								}
 							},
 							{
@@ -52,205 +53,26 @@
 									"path": "$['data'][0]['EAN']"
 								},
 								"sink": {
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['REGISTRO_MS']"
-								},
-								"sink": {
+									"name": "ean",
 									"type": "String"
 								}
 							},
 							{
 								"source": {
 									"path": "$['data'][0]['NOME']"
+								},
+								"sink": {
+									"name": "Nome",
+									"type": "String"
 								}
 							},
 							{
 								"source": {
 									"path": "$['data'][0]['APRESENTACAO']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['LABORATORIO']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['PRINCIPIO_ATIVO']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['ID_TIPO_PRODUTO']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['DESCRICAO_TIPO_PRODUTO']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['SUBTIPO_PRODUTO']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['ID_STATUS']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['DESCRICAO_STATUS']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['ID_TIPO_PRECO']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['DESCRICAO_TIPO_PRECO']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['ID_HOSPITALAR']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['DESCRICAO_HOSPITALAR']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['ID_TIPO_LISTA']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['DESCRICAO_TIPO_LISTA']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['DATA_VIGENCIA']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['NCM']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['ID_TARJA']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['DESCRICAO_TARJA']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['CEST']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['PRECO_FABRICA_20']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['PRECO_MAXIMO_20']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['PRECO_FABRICA_18']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['PRECO_MAXIMO_18']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['PRECO_FABRICA_18ALC']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['PRECO_MAXIMO_18ALC']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['PRECO_FABRICA_175']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['PRECO_MAXIMO_175']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['PRECO_FABRICA_175ALC']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['PRECO_MAXIMO_175ALC']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['PRECO_FABRICA_17']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['PRECO_MAXIMO_17']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['PRECO_FABRICA_17ALC']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['PRECO_MAXIMO_17ALC']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['PRECO_FABRICA_12']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['PRECO_MAXIMO_12']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['PRECO_FABRICA_0']"
-								}
-							},
-							{
-								"source": {
-									"path": "$['data'][0]['PRECO_MAXIMO_0']"
+								},
+								"sink": {
+									"name": "Apresentacao",
+									"type": "String"
 								}
 							}
 						]
@@ -264,7 +86,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "MDMDEV_Produto",
+						"referenceName": "AzureSqlTable_teste",
 						"type": "DatasetReference"
 					}
 				]
