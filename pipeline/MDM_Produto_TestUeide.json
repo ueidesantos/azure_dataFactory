@@ -42,16 +42,25 @@
 							{
 								"source": {
 									"path": "$['data'][0]['ID_PRODUTO']"
+								},
+								"sink": {
+									"type": "String"
 								}
 							},
 							{
 								"source": {
 									"path": "$['data'][0]['EAN']"
+								},
+								"sink": {
+									"type": "String"
 								}
 							},
 							{
 								"source": {
 									"path": "$['data'][0]['REGISTRO_MS']"
+								},
+								"sink": {
+									"type": "String"
 								}
 							},
 							{
