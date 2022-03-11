@@ -45,7 +45,7 @@
 								},
 								"sink": {
 									"name": "product_id",
-									"type": "Guid"
+									"type": "Int32"
 								}
 							},
 							{
@@ -73,6 +73,11 @@
 								"sink": {
 									"name": "Apresentacao",
 									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Column_1']"
 								}
 							}
 						]
