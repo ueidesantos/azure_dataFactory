@@ -74,13 +74,9 @@
 									"name": "Apresentacao",
 									"type": "String"
 								}
-							},
-							{
-								"source": {
-									"path": "$['Column_1']"
-								}
 							}
-						]
+						],
+						"collectionReference": ""
 					}
 				},
 				"inputs": [
