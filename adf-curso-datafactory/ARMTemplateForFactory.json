@@ -1,0 +1,968 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "adf-curso-datafactory"
+		},
+		"ls_azuresql_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ls_azuresql'"
+		},
+		"ls_datalake_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ls_datalake'"
+		},
+		"MDM_PBMGuia_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'MDM_PBMGuia'"
+		},
+		"ls_datalake_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://dlscursodatafactoryueide.dfs.core.windows.net"
+		},
+		"RestService_GuiaFarmacia_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://webservice.guiadafarmaciadigital.com.br/webservice/"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/pipe_01')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Wait1",
+						"type": "Wait",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 3
+						}
+					},
+					{
+						"name": "Wait2",
+						"type": "Wait",
+						"dependsOn": [
+							{
+								"activity": "Wait1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 1
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "adf_01_papeline01"
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-02-16T23:42:00Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipe__copydata')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "excel_to_csv",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "ExcelSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"tableOption": "autoCreate",
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "EAN 1"
+										},
+										"sink": {
+											"name": "EAN"
+										}
+									},
+									{
+										"source": {
+											"name": "PRODUTO"
+										},
+										"sink": {
+											"name": "Produto"
+										}
+									},
+									{
+										"source": {
+											"name": "APRESENTAÇÃO"
+										},
+										"sink": {
+											"name": "Apresentacao"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_excel_anvisa_products",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AzureSqlTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "ads_02_activities"
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-02-17T00:42:54Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_excel_anvisa_products')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipe_gitHub')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Wait_Git",
+						"type": "Wait",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 1
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "adf_04_git"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_azuresql",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "import",
+					"table": "testeImportacao"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_azuresql')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_excel_anvisa_products')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_datalake",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "TOTAL ANVISA",
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "ANVISA_Layout-GuiaJan22_.xlsx",
+						"fileSystem": "excelfiles"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "SUBSTÂNCIA",
+						"type": "String"
+					},
+					{
+						"name": "CNPJ",
+						"type": "String"
+					},
+					{
+						"name": "LABORATÓRIO",
+						"type": "String"
+					},
+					{
+						"name": "CÓDIGO GGREM",
+						"type": "String"
+					},
+					{
+						"name": "REGISTRO",
+						"type": "String"
+					},
+					{
+						"name": "EAN 1",
+						"type": "String"
+					},
+					{
+						"name": "EAN 2",
+						"type": "String"
+					},
+					{
+						"name": "EAN 3",
+						"type": "String"
+					},
+					{
+						"name": "PRODUTO",
+						"type": "String"
+					},
+					{
+						"name": "APRESENTAÇÃO",
+						"type": "String"
+					},
+					{
+						"name": "CLASSE TERAPÊUTICA",
+						"type": "String"
+					},
+					{
+						"name": "TIPO DE PRODUTO (STATUS DO PRODUTO)",
+						"type": "String"
+					},
+					{
+						"name": "REGIME DE PREÇO",
+						"type": "String"
+					},
+					{
+						"name": "PF Sem Impostos",
+						"type": "String"
+					},
+					{
+						"name": "PF 0%",
+						"type": "String"
+					},
+					{
+						"name": "PF 12%",
+						"type": "String"
+					},
+					{
+						"name": "PF 17%",
+						"type": "String"
+					},
+					{
+						"name": "PF 17% ALC",
+						"type": "String"
+					},
+					{
+						"name": "PF 17,5%",
+						"type": "String"
+					},
+					{
+						"name": "PF 17,5% ALC",
+						"type": "String"
+					},
+					{
+						"name": "PF 18%",
+						"type": "String"
+					},
+					{
+						"name": "PF 18% ALC",
+						"type": "String"
+					},
+					{
+						"name": "PF 20%",
+						"type": "String"
+					},
+					{
+						"name": "PMC 0%",
+						"type": "String"
+					},
+					{
+						"name": "PMC 12%",
+						"type": "String"
+					},
+					{
+						"name": "PMC 17%",
+						"type": "String"
+					},
+					{
+						"name": "PMC 17% ALC",
+						"type": "String"
+					},
+					{
+						"name": "PMC 17,5%",
+						"type": "String"
+					},
+					{
+						"name": "PMC 17,5% ALC",
+						"type": "String"
+					},
+					{
+						"name": "PMC 18%",
+						"type": "String"
+					},
+					{
+						"name": "PMC 18% ALC",
+						"type": "String"
+					},
+					{
+						"name": "PMC 20%",
+						"type": "String"
+					},
+					{
+						"name": "RESTRIÇÃO HOSPITALAR",
+						"type": "String"
+					},
+					{
+						"name": "CAP",
+						"type": "String"
+					},
+					{
+						"name": "CONFAZ 87",
+						"type": "String"
+					},
+					{
+						"name": "ICMS 0%",
+						"type": "String"
+					},
+					{
+						"name": "ANÁLISE RECURSAL CMED / PREÇO AJUSTADO POR DECISÃO JUDICIAL",
+						"type": "String"
+					},
+					{
+						"name": "LISTA DE CONCESSÃO DE CRÉDITO TRIBUTÁRIO (PIS/COFINS)",
+						"type": "String"
+					},
+					{
+						"name": "COMERCIALIZAÇÃO 2019",
+						"type": "String"
+					},
+					{
+						"name": "TARJA",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_datalake')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_excel_lobby_eans')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_datalake",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "Sheet1",
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "LobbyFileAnvisa.xlsx",
+						"fileSystem": "excelfiles"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "EAN 1",
+						"type": "String"
+					},
+					{
+						"name": "EAN 2",
+						"type": "String"
+					},
+					{
+						"name": "EAN 3",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_datalake')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_fixo_azuresql')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_azuresql",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "AddressID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "AddressLine1",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AddressLine2",
+						"type": "nvarchar"
+					},
+					{
+						"name": "City",
+						"type": "nvarchar"
+					},
+					{
+						"name": "StateProvince",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CountryRegion",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostalCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "rowguid",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "SalesLT",
+					"table": "Address"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_azuresql')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_generico_azuresql')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_azuresql",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"schemaName": {
+						"type": "string"
+					},
+					"TableName": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "AddressID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "AddressLine1",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AddressLine2",
+						"type": "nvarchar"
+					},
+					{
+						"name": "City",
+						"type": "nvarchar"
+					},
+					{
+						"name": "StateProvince",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CountryRegion",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostalCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "rowguid",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": {
+						"value": "@dataset().schemaName",
+						"type": "Expression"
+					},
+					"table": {
+						"value": "@dataset().TableName",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_azuresql')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_azuresql')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('ls_azuresql_connectionString')]",
+					"alwaysEncryptedSettings": {
+						"alwaysEncryptedAkvAuthType": "ManagedIdentity"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_datalake')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('ls_datalake_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('ls_datalake_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MDM_Produto_TestUeide')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Obtem Produto Guia Farmacia",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "RestSource",
+								"httpRequestTimeout": "00:01:40",
+								"requestInterval": "00.00:00:00.010",
+								"requestMethod": "POST",
+								"requestBody": "cnpj_sh=&cnpj_cpf=05347060000603&email=juliana.garcia@interplayers.com.br&senha=228081",
+								"additionalHeaders": {
+									"Content-Type": "application/x-www-form-urlencoded"
+								},
+								"paginationRules": {
+									"supportRFC5988": "true"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"tableOption": "autoCreate",
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$['data'][0]['ID_PRODUTO']"
+										},
+										"sink": {
+											"name": "product_id",
+											"type": "Int32"
+										}
+									},
+									{
+										"source": {
+											"path": "$['data'][0]['EAN']"
+										},
+										"sink": {
+											"name": "ean",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['data'][0]['NOME']"
+										},
+										"sink": {
+											"name": "Nome",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['data'][0]['APRESENTACAO']"
+										},
+										"sink": {
+											"name": "Apresentacao",
+											"type": "String"
+										}
+									}
+								],
+								"collectionReference": "$['data']"
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_GuiaFarmacia",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AzureSqlTable_teste",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_GuiaFarmacia')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable_teste')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MDM_PBMGuia')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('MDM_PBMGuia_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/RestService_GuiaFarmacia')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"parameters": {
+					"cnpj_sh": {
+						"type": "string",
+						"defaultValue": "05347060000603"
+					},
+					"cnpj_cpf": {
+						"type": "string",
+						"defaultValue": "05347060000603"
+					},
+					"senha": {
+						"type": "string",
+						"defaultValue": "228081"
+					},
+					"email": {
+						"type": "string",
+						"defaultValue": "juliana.garcia@interplayers.com.br"
+					}
+				},
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('RestService_GuiaFarmacia_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous",
+					"authHeaders": {
+						"content-type": {
+							"type": "SecureString",
+							"value": "**********"
+						}
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_GuiaFarmacia')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "RestService_GuiaFarmacia",
+					"type": "LinkedServiceReference",
+					"parameters": {
+						"cnpj_sh": "05347060000603",
+						"cnpj_cpf": "05347060000603",
+						"senha": "228081",
+						"email": "juliana.garcia@interplayers.com.br"
+					}
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {
+					"relativeUrl": ""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/RestService_GuiaFarmacia')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MDMDEV_Produto')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "MDM_PBMGuia",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Id",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "Substance",
+						"type": "varchar"
+					},
+					{
+						"name": "FiscalNumber",
+						"type": "varchar"
+					},
+					{
+						"name": "Laboratory",
+						"type": "varchar"
+					},
+					{
+						"name": "GGREMCode",
+						"type": "varchar"
+					},
+					{
+						"name": "Registry",
+						"type": "varchar"
+					},
+					{
+						"name": "Ean1",
+						"type": "varchar"
+					},
+					{
+						"name": "Ean2",
+						"type": "varchar"
+					},
+					{
+						"name": "Ean3",
+						"type": "varchar"
+					},
+					{
+						"name": "ProductName",
+						"type": "varchar"
+					},
+					{
+						"name": "Presentation",
+						"type": "varchar"
+					},
+					{
+						"name": "ProductUseValidityId",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "TherapeuticClassId",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ProductTypeId",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ProductSubTypeId",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "PriceRegime",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "HospitalRestriction",
+						"type": "bit"
+					},
+					{
+						"name": "Cap",
+						"type": "bit"
+					},
+					{
+						"name": "Confaz",
+						"type": "bit"
+					},
+					{
+						"name": "Icms0",
+						"type": "bit"
+					},
+					{
+						"name": "AppealAnalysis",
+						"type": "varchar"
+					},
+					{
+						"name": "TributaryCreditConcession",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Commercialization",
+						"type": "bit"
+					},
+					{
+						"name": "Targe",
+						"type": "varchar"
+					},
+					{
+						"name": "UseType",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Modified",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "Deleted",
+						"type": "bit"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "Product"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/MDM_PBMGuia')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable_teste')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_azuresql",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "importacao_teste"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_azuresql')]"
+			]
+		}
+	]
+}
