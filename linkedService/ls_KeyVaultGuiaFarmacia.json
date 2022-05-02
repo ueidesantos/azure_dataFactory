@@ -1,0 +1,10 @@
+{
+	"name": "ls_KeyVaultGuiaFarmacia",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://keyVaultTesteUeideSantos.vault.azure.net/"
+		}
+	}
+}
